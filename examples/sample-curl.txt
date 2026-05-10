@@ -1,0 +1,5 @@
+curl -X POST \
+  -H "Authorization: Bearer xxx" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"alice","age":30}' \
+  https://api.example.com/users

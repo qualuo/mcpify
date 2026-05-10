@@ -1,0 +1,96 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Petstore",
+    "version": "1.0.0",
+    "description": "A tiny pet store API for unmcp demos."
+  },
+  "servers": [{ "url": "https://petstore3.swagger.io/api/v3" }],
+  "paths": {
+    "/pet/findByStatus": {
+      "get": {
+        "tags": ["pet"],
+        "operationId": "findPetsByStatus",
+        "summary": "Find pets by status",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["available", "pending", "sold"],
+              "default": "available"
+            }
+          }
+        ]
+      }
+    },
+    "/pet/{petId}": {
+      "get": {
+        "tags": ["pet"],
+        "operationId": "getPetById",
+        "summary": "Get a pet by ID",
+        "parameters": [
+          {
+            "name": "petId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ]
+      },
+      "delete": {
+        "tags": ["pet"],
+        "operationId": "deletePet",
+        "summary": "Delete a pet",
+        "parameters": [
+          {
+            "name": "petId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ]
+      }
+    },
+    "/pet": {
+      "post": {
+        "tags": ["pet"],
+        "operationId": "addPet",
+        "summary": "Add a new pet",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name", "status"],
+                "properties": {
+                  "id": { "type": "integer", "format": "int64" },
+                  "name": { "type": "string" },
+                  "status": {
+                    "type": "string",
+                    "enum": ["available", "pending", "sold"]
+                  },
+                  "tags": {
+                    "type": "array",
+                    "items": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "petstore_auth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
