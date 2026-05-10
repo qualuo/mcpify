@@ -17,7 +17,7 @@ const log = (msg: string) => process.stderr.write(msg + "\n");
 
 async function main(): Promise<void> {
   await yargs(hideBin(process.argv))
-    .scriptName("unmcp")
+    .scriptName("mcpify")
     .usage(
       "$0 <command> [options]\n\nTurn any OpenAPI spec or curl command into an MCP server."
     )
@@ -64,7 +64,7 @@ async function main(): Promise<void> {
         // immediately on stderr.
         log(
           kleur.green("✓") +
-            ` ${kleur.bold("unmcp")}: ${spec.title} v${spec.version} — ` +
+            ` ${kleur.bold("mcpify")}: ${spec.title} v${spec.version} — ` +
             `${operations.length} tool${operations.length === 1 ? "" : "s"}`
         );
         if (opts.baseUrl || spec.servers[0]) {

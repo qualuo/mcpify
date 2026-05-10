@@ -122,7 +122,7 @@ describe("executeOperation", () => {
       s,
       op({ security: [{ schemeName: "bearer" }] }),
       {},
-      { fetchImpl, env: { UNMCP_BEARER_TOKEN: "tok" } }
+      { fetchImpl, env: { MCPIFY_BEARER_TOKEN: "tok" } }
     );
     const init = fetchImpl.mock.calls[0][1];
     expect(init.headers.Authorization).toBe("Bearer tok");

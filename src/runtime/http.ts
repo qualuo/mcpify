@@ -32,7 +32,7 @@ export async function executeOperation(
   );
   if (!baseUrl) {
     throw new Error(
-      "No base URL is configured. Pass --base-url, set UNMCP_BASE_URL, " +
+      "No base URL is configured. Pass --base-url, set MCPIFY_BASE_URL, " +
         "or use a spec with at least one `servers` entry."
     );
   }

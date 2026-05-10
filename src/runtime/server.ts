@@ -25,7 +25,7 @@ export function buildServer(
   const opByName = new Map(operations.map((o) => [o.toolName, o]));
 
   const server = new Server(
-    { name: `unmcp:${spec.title}`, version: spec.version },
+    { name: `mcpify:${spec.title}`, version: spec.version },
     { capabilities: { tools: {} } }
   );
 

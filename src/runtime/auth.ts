@@ -11,13 +11,13 @@ const NONE: ResolvedAuth = Object.freeze({ headers: {}, query: {} }) as any;
  * Resolve auth from environment variables.
  *
  * Lookup order for a security scheme named `<NAME>`:
- *   1. UNMCP_AUTH_<NAME_UPPER>          (raw token / value)
- *   2. UNMCP_BEARER_TOKEN               (HTTP bearer fallback)
- *   3. UNMCP_API_KEY                    (apiKey fallback)
- *   4. UNMCP_BASIC_AUTH                 (Basic, expects "user:pass" or pre-encoded)
+ *   1. MCPIFY_AUTH_<NAME_UPPER>          (raw token / value)
+ *   2. MCPIFY_BEARER_TOKEN               (HTTP bearer fallback)
+ *   3. MCPIFY_API_KEY                    (apiKey fallback)
+ *   4. MCPIFY_BASIC_AUTH                 (Basic, expects "user:pass" or pre-encoded)
  *
  * Plus a generic envelope:
- *   - UNMCP_HEADERS — JSON object merged into every request's headers
+ *   - MCPIFY_HEADERS — JSON object merged into every request's headers
  */
 export function resolveAuth(
   spec: ApiSpec,
@@ -45,12 +45,12 @@ function applyScheme(
   env: NodeJS.ProcessEnv
 ): ResolvedAuth | null {
   const upper = name.toUpperCase().replace(/[^A-Z0-9]+/g, "_");
-  const specific = env[`UNMCP_AUTH_${upper}`];
+  const specific = env[`MCPIFY_AUTH_${upper}`];
 
   if (scheme.type === "http") {
     const httpScheme = (scheme.scheme || "").toLowerCase();
     if (httpScheme === "bearer") {
-      const token = specific || env.UNMCP_BEARER_TOKEN;
+      const token = specific || env.MCPIFY_BEARER_TOKEN;
       if (!token) return null;
       return {
         headers: { Authorization: `Bearer ${token}` },
@@ -58,7 +58,7 @@ function applyScheme(
       };
     }
     if (httpScheme === "basic") {
-      const raw = specific || env.UNMCP_BASIC_AUTH;
+      const raw = specific || env.MCPIFY_BASIC_AUTH;
       if (!raw) return null;
       const encoded = raw.includes(":")
         ? Buffer.from(raw, "utf-8").toString("base64")
@@ -72,7 +72,7 @@ function applyScheme(
   }
 
   if (scheme.type === "apiKey") {
-    const value = specific || env.UNMCP_API_KEY;
+    const value = specific || env.MCPIFY_API_KEY;
     if (!value || !scheme.name) return null;
     if (scheme.in === "header") {
       return { headers: { [scheme.name]: value }, query: {} };
@@ -85,7 +85,7 @@ function applyScheme(
 
   if (scheme.type === "oauth2" || scheme.type === "openIdConnect") {
     // We don't run a flow — accept a pre-fetched access token.
-    const token = specific || env.UNMCP_BEARER_TOKEN;
+    const token = specific || env.MCPIFY_BEARER_TOKEN;
     if (!token) return null;
     return {
       headers: { Authorization: `Bearer ${token}` },
@@ -99,7 +99,7 @@ function applyScheme(
 export function extraHeadersFromEnv(
   env: NodeJS.ProcessEnv = process.env
 ): Record<string, string> {
-  const raw = env.UNMCP_HEADERS;
+  const raw = env.MCPIFY_HEADERS;
   if (!raw) return {};
   try {
     const parsed = JSON.parse(raw);

@@ -3,7 +3,7 @@
   "info": {
     "title": "Petstore",
     "version": "1.0.0",
-    "description": "A tiny pet store API for unmcp demos."
+    "description": "A tiny pet store API for mcpify demos."
   },
   "servers": [{ "url": "https://petstore3.swagger.io/api/v3" }],
   "paths": {

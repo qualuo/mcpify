@@ -9,7 +9,7 @@ describe("generateProject", () => {
   let dir: string;
 
   beforeEach(async () => {
-    dir = await mkdtemp(join(tmpdir(), "unmcp-codegen-"));
+    dir = await mkdtemp(join(tmpdir(), "mcpify-codegen-"));
   });
   afterEach(async () => {
     await rm(dir, { recursive: true, force: true });
@@ -32,7 +32,7 @@ describe("generateProject", () => {
       await readFile(join(dir, "package.json"), "utf-8")
     );
     expect(pkg.name).toBe("pet-mcp");
-    expect(pkg.dependencies.unmcp).toBeDefined();
+    expect(pkg.dependencies.mcpify).toBeDefined();
 
     const embedded = JSON.parse(
       await readFile(join(dir, "src", "spec.json"), "utf-8")

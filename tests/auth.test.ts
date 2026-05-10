@@ -18,13 +18,13 @@ describe("resolveAuth", () => {
     expect(result.query).toEqual({});
   });
 
-  it("applies a bearer token from UNMCP_BEARER_TOKEN", () => {
+  it("applies a bearer token from MCPIFY_BEARER_TOKEN", () => {
     const spec: ApiSpec = {
       ...baseSpec,
       securitySchemes: { mainAuth: { type: "http", scheme: "bearer" } },
     };
     const result = resolveAuth(spec, [{ schemeName: "mainAuth" }], {
-      UNMCP_BEARER_TOKEN: "abc",
+      MCPIFY_BEARER_TOKEN: "abc",
     });
     expect(result.headers.Authorization).toBe("Bearer abc");
   });
@@ -35,8 +35,8 @@ describe("resolveAuth", () => {
       securitySchemes: { mainAuth: { type: "http", scheme: "bearer" } },
     };
     const result = resolveAuth(spec, [{ schemeName: "mainAuth" }], {
-      UNMCP_AUTH_MAINAUTH: "specific",
-      UNMCP_BEARER_TOKEN: "generic",
+      MCPIFY_AUTH_MAINAUTH: "specific",
+      MCPIFY_BEARER_TOKEN: "generic",
     });
     expect(result.headers.Authorization).toBe("Bearer specific");
   });
@@ -49,7 +49,7 @@ describe("resolveAuth", () => {
       },
     };
     const result = resolveAuth(spec, [{ schemeName: "ApiKey" }], {
-      UNMCP_API_KEY: "k",
+      MCPIFY_API_KEY: "k",
     });
     expect(result.query.api_key).toBe("k");
     expect(result.headers).toEqual({});
@@ -61,7 +61,7 @@ describe("resolveAuth", () => {
       securitySchemes: { basic: { type: "http", scheme: "basic" } },
     };
     const result = resolveAuth(spec, [{ schemeName: "basic" }], {
-      UNMCP_BASIC_AUTH: "alice:secret",
+      MCPIFY_BASIC_AUTH: "alice:secret",
     });
     const expected = Buffer.from("alice:secret").toString("base64");
     expect(result.headers.Authorization).toBe(`Basic ${expected}`);
@@ -78,15 +78,15 @@ describe("resolveAuth", () => {
 });
 
 describe("extraHeadersFromEnv", () => {
-  it("parses a JSON object from UNMCP_HEADERS", () => {
+  it("parses a JSON object from MCPIFY_HEADERS", () => {
     const result = extraHeadersFromEnv({
-      UNMCP_HEADERS: '{"X-A":"1","X-B":"2"}',
+      MCPIFY_HEADERS: '{"X-A":"1","X-B":"2"}',
     });
     expect(result).toEqual({ "X-A": "1", "X-B": "2" });
   });
 
   it("ignores malformed JSON", () => {
-    const result = extraHeadersFromEnv({ UNMCP_HEADERS: "not json" });
+    const result = extraHeadersFromEnv({ MCPIFY_HEADERS: "not json" });
     expect(result).toEqual({});
   });
 });
