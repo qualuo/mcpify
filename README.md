@@ -10,7 +10,7 @@
 </div>
 
 ```bash
-npm install -g github:qualuo/mcpify
+npm install -g https://github.com/qualuo/mcpify/releases/latest/download/mcpify.tgz
 mcpify https://petstore3.swagger.io/api/v3/openapi.json
 ```
 
@@ -34,21 +34,23 @@ Every team building agents hits the same wall: the model needs to call APIs, and
 
 ## Install
 
-Direct from GitHub (current — npm release coming):
+From the latest GitHub release:
 
 ```bash
-npm install -g github:qualuo/mcpify
+npm install -g https://github.com/qualuo/mcpify/releases/latest/download/mcpify.tgz
 ```
 
-Or run once without installing:
+Then run from anywhere:
 
 ```bash
-npx github:qualuo/mcpify <spec>
+mcpify <spec>
 ```
 
 Requires Node.js 18+.
 
-> **Update:** to pull the latest version, re-run the `npm install -g ...` command.
+> **Update:** re-run the install command above to pull the latest release.
+>
+> **Why a tarball URL?** `npm install -g github:user/repo` is broken on Windows (creates dangling junctions to deleted temp dirs). The release tarball works reliably on every platform. An npm release will land once we've gathered some real-world usage feedback.
 
 ## Use
 
