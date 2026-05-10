@@ -4,14 +4,14 @@
 
 ### Turn any API into an MCP server. One command. No code.
 
-[![npm](https://img.shields.io/npm/v/mcpify?color=cb3837)](https://www.npmjs.com/package/mcpify)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![CI](https://img.shields.io/github/actions/workflow/status/qualuo/mcpify/ci.yml?branch=main)](https://github.com/qualuo/mcpify/actions)
 
 </div>
 
 ```bash
-npx mcpify https://petstore3.swagger.io/api/v3/openapi.json
+npm install -g github:qualuo/mcpify
+mcpify https://petstore3.swagger.io/api/v3/openapi.json
 ```
 
 ```
@@ -34,38 +34,40 @@ Every team building agents hits the same wall: the model needs to call APIs, and
 
 ## Install
 
-Use it on demand with `npx` (recommended):
+Direct from GitHub (current — npm release coming):
 
 ```bash
-npx mcpify <spec>
+npm install -g github:qualuo/mcpify
 ```
 
-Or install globally:
+Or run once without installing:
 
 ```bash
-npm install -g mcpify
+npx github:qualuo/mcpify <spec>
 ```
 
 Requires Node.js 18+.
+
+> **Update:** to pull the latest version, re-run the `npm install -g ...` command.
 
 ## Use
 
 ### From a hosted spec
 
 ```bash
-npx mcpify https://api.example.com/openapi.json
+mcpify https://api.example.com/openapi.json
 ```
 
 ### From a local file (JSON or YAML)
 
 ```bash
-npx mcpify ./spec.yaml
+mcpify ./spec.yaml
 ```
 
 ### From a single curl command
 
 ```bash
-npx mcpify --curl "curl -H 'Authorization: Bearer xxx' https://api.github.com/user/repos"
+mcpify --curl "curl -H 'Authorization: Bearer xxx' https://api.github.com/user/repos"
 ```
 
 Generates a one-tool MCP server from any curl command. Body is parsed and turned into an input schema.
@@ -73,13 +75,13 @@ Generates a one-tool MCP server from any curl command. Body is parsed and turned
 ### List tools without serving
 
 ```bash
-npx mcpify list ./spec.json
+mcpify list ./spec.json
 ```
 
 ### Generate a standalone, hand-editable project
 
 ```bash
-npx mcpify generate ./spec.json ./my-mcp
+mcpify generate ./spec.json ./my-mcp
 cd my-mcp && npm install && npm start
 ```
 
@@ -112,29 +114,31 @@ Stripe's full OpenAPI is ~600 endpoints. Most agents do not need all of them, an
 
 ```bash
 # Only the customers tag
-npx mcpify ./stripe.json --tag customers
+mcpify ./stripe.json --tag customers
 
 # Only operations whose tool name matches a regex
-npx mcpify ./stripe.json --filter "^createCustomer|^getCustomer"
+mcpify ./stripe.json --filter "^createCustomer|^getCustomer"
 
 # Hard cap
-npx mcpify ./stripe.json --max-tools 30
+mcpify ./stripe.json --max-tools 30
 ```
 
 ## Use with Claude Desktop
 
 `~/.config/claude/claude_desktop_config.json` (Linux/macOS) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
 
+After running `npm install -g github:qualuo/mcpify` once, the `mcpify` binary is available on your PATH:
+
 ```json
 {
   "mcpServers": {
     "petstore": {
-      "command": "npx",
-      "args": ["-y", "mcpify", "https://petstore3.swagger.io/api/v3/openapi.json"]
+      "command": "mcpify",
+      "args": ["https://petstore3.swagger.io/api/v3/openapi.json"]
     },
     "github": {
-      "command": "npx",
-      "args": ["-y", "mcpify", "--curl",
+      "command": "mcpify",
+      "args": ["--curl",
         "curl -H 'Authorization: Bearer ghp_xxx' https://api.github.com/user/repos"]
     }
   }
@@ -147,7 +151,7 @@ Same idea — anywhere you can configure an MCP server with a `command` and `arg
 
 ```bash
 # Claude Code:
-claude mcp add petstore -- npx -y mcpify https://petstore3.swagger.io/api/v3/openapi.json
+claude mcp add petstore -- mcpify https://petstore3.swagger.io/api/v3/openapi.json
 ```
 
 ## Programmatic API
