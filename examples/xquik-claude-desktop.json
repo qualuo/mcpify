@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "xquik": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcpify",
+        "https://xquik.com/openapi.json"
+      ],
+      "env": {
+        "MCPIFY_HEADERS": "{\"x-api-key\":\"YOUR_XQUIK_API_KEY\"}"
+      }
+    }
+  }
+}
